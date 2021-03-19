@@ -29,5 +29,5 @@ jobs:
          ls -a
     - name : Merge the feature branch in to master
       run: |
-         git checkout master
+         git checkout main
          git merge feature
