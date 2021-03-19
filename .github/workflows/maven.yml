@@ -20,11 +20,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Maven
+    - name: Build and test with Maven
       run: mvn -B package --file pom.xml
-    - name : ls to main dir
-      run: ls -a
-    - name : ls to main dir
+    - name : Validate Target Folder and compiled files
       run: |
+         ls -a
          cd target
          ls -a
+    - name : Merge the feature branch in to master
+      run: |
+         git checkout master
+         git merge feature
