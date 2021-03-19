@@ -27,7 +27,20 @@ jobs:
          ls -a
          cd target
          ls -a
-    - name : Merge the feature branch in to master
-      run: |
-         git checkout main
-         git merge feature
+    - name : Merge the feature branch in to main
+      uses: tukasz/direct-merge-action@v2.0.2
+      with:
+        source-branch: feature
+    # Name of the target branch (to)
+        target-branch: main
+    # Message to use for the commit. If empty then a default message will be used ("Automatic merge of <source-branch> -> <target-branch>")
+ 
+    # Repository access token. For example: secrets.GITHUB_TOKEN
+      # GITHUB_TOKEN:    
+
+
+
+
+
+
+
