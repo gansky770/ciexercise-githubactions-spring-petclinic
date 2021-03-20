@@ -1,7 +1,8 @@
 [# CI Exercise Using GitHubActions
 #### Integrate static code analysis >>we use SonarCloud
- - we open a free account on sonarcloud
-[ - we update the pom.xml  file with the following properties:
+ - we open a free account on [sonarcloud](https://sonarcloud.io)
+ - we create a GitHub Secret SONAR_TOKEN with volue from sonarcloud configuration
+ - we update the pom.xml  file with the following properties:
  ```
   <properties>
   <sonar.projectKey>gansky770_ciexercise-spring-petclinic</sonar.projectKey>
@@ -9,8 +10,13 @@
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
 ```
-
-
+  - we add to our run mvn command  :  
+   ```- name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+```
 
 # Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-projects/spring-petclinic.png?branch=main)](https://travis-ci.org/spring-projects/spring-petclinic/)
 
