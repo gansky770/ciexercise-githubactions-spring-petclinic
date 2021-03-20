@@ -1,7 +1,7 @@
 [# CI Exercise Using GitHubActions
 #### Integrate static code analysis >>we use SonarCloud
  - we open a free account on sonarcloud
- - we update the pom.xml  file with the following properties:
+[ - we update the pom.xml  file with the following properties:
  ```
   <properties>
   <sonar.projectKey>gansky770_ciexercise-spring-petclinic</sonar.projectKey>
