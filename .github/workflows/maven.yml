@@ -24,7 +24,6 @@ jobs:
       run: mvn -B package --file pom.xml
     - name : Validate Target Folder and compiled files
       run: |
-         ls -a
          cd target
          ls -a
     - name : Merge the feature branch in to main
