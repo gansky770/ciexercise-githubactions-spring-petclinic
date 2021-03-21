@@ -48,7 +48,7 @@ jobs:
           args: --docker
       env:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          PASSWORD: ${{ secrets.DOCKER_TOKEN }}
           DOCKERFILE: "Dockerfile"
           IMAGE_NAME: "gansky/ciexercise-spring-petclinic"
           TAG_NAME: "$GITHUB_SHA"
