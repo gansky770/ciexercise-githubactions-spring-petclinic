@@ -44,6 +44,18 @@ jobs:
  
     # Repository access token. For example: secrets.GITHUB_TOKEN
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        
+    - name: Docker Build & Push to Docker Hub
+      uses: opspresso/action-docker@master
+      with:
+          args: --docker
+      env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERFILE: "Dockerfile"
+          IMAGE_NAME: "gansky/ciexercise-spring-petclinic"
+          TAG_NAME: "$GITHUB_SHA"
+          LATEST: "false" 
 
 
 
