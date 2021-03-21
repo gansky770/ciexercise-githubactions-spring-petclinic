@@ -69,7 +69,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: gansky/ciexercise-spring-petclinic:${ GITHUB_SHA }
+          tags: gansky/ciexercise-spring-petclinic:${{ GITHUB_SHA }}
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}    
