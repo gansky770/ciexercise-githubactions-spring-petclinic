@@ -112,6 +112,33 @@ jobs:
 
 ### There is a [logfile](https://raw.githubusercontent.com/gansky770/ciexercise-spring-petclinic/main/build.log) with  stream of a building process
 
+# CI Exercise Using Jenkins
+ ## 1) We install Jenkins with docker-compose support
+ ## 2) We create multi-stage  dockerfile that instructs to run sonarscan on the build proccess
+   ### Stage 1 run the build and test from   maven base mage
+  ```
+  FROM maven:3.5-jdk-8 as build
+  WORKDIR /code
+  ADD pom.xml /code/pom.xml
+  ADD src /code/src
+  RUN ["mvn", "package"  ]
+  ```
+  ### Stage 2 run the sonar-scanner image on folder from the  stage 1 (the target folder -jar files)
+  ```
+  FROM newtmitch/sonar-scanner as sonarqube
+  WORKDIR /usr/src
+  COPY --from=build /code/target/*.jar /usr/src 
+  RUN sonar-scanner  -Dsonar.projectBaseDir=/usr/src  -Dsonar.exclusions=**.java
+  ```
+  
+  ### Stage 3 creates the final image that passed all the tests and runs the jar file
+  ```
+  FROM openjdk:8-jre-alpine
+  WORKDIR /code
+  COPY --from=build /code/target/*.jar /code
+  CMD ["java","-jar","spring-petclinic-2.4.2.jar"]
+  ```
+
 # Thank you! 
 <br>
 <br>
