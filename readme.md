@@ -19,7 +19,7 @@ jobs:
       with:
         java-version: 11
 ```` 
- ### Step 2) - Build the the source code with with unit tests and  static code analysis .
+ ### Step 2) - Build the the source code with  unit tests and  static code analysis .
    #### Integrate static code analysis >>we use SonarCloud
  - we open a free account on [sonarcloud](https://sonarcloud.io)
  - we create a GitHub Secret SONAR_TOKEN with volue from sonarcloud configuration (***we use SONAR_TOKEN and GITHUB_TOKEN  environment variables in our build***)
