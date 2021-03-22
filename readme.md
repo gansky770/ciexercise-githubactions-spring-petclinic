@@ -1,5 +1,5 @@
 # CI Exercise Using GitHubActions
- ## 1)  We fork spring-petclinic and open a new branch -- FEATURE
+ ## 1)  We fork spring-petclinic repo and open a new branch -- FEATURE ( this branch is for aplication development purpose , we never touch a main branch )
  ## 2)  Github-Actions generate ".github/workflows" folder with yml file ,this file includes all configuration of our CI process that we want to run
  ## 3) We start to configure our yml file >> there is a short explanation about each step below.
     
