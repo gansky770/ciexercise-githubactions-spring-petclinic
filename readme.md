@@ -110,7 +110,7 @@ jobs:
      ``` $ docker run --name test -p 8080:8080 gansky/ciexercise-spring-petclinic:feature ```
    - we can browse to  http://localhost:8080/ to see the new tested version.
 
-There is a [logfile] with  stream of a building process
+### There is a [logfile](https://raw.githubusercontent.com/gansky770/ciexercise-spring-petclinic/main/build.log) with  stream of a building process
 
 # Thank you! 
 <br>
