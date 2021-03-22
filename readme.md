@@ -1,4 +1,6 @@
-[# CI Exercise Using GitHubActions
+# CI Exercise Using GitHubActions
+ ## 1)  We fork spring-petclinic and open a new branch -- FEATURE
+ ## 2
 #### Integrate static code analysis >>we use SonarCloud
  - we open a free account on [sonarcloud](https://sonarcloud.io)
  - we create a GitHub Secret SONAR_TOKEN with volue from sonarcloud configuration
