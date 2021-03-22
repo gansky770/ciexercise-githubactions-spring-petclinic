@@ -57,7 +57,7 @@ jobs:
         target-branch: main
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
   ````  
-  ### Step 5)We will login to our dockerhub registry for future push action ( ***we will store our new compiled version of spring-petclinc application in docker            image***) We use dockerhub id as secrets.DOCKER_HUB_USERNAME  and generated dockerhub token as secrets.DOCKER_HUB_ACCESS_TOKEN.
+  ### Step 5) We will login to our dockerhub registry for future push action ( ***we will store our new compiled version of spring-petclinc application in docker            image***) We use dockerhub id as secrets.DOCKER_HUB_USERNAME  and generated dockerhub token as secrets.DOCKER_HUB_ACCESS_TOKEN.
   ```
    - name: Login to Docker Hub
      uses: docker/login-action@v1
@@ -66,7 +66,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
   ```
    
-  ### Step 6)We tag our images with branch name and commit short sha string ,  attaching the commit to image version
+  ### Step 6) We tag our images with branch name and commit short sha string ,  attaching the commit to image version
           
   ```
    - name: Docker meta
@@ -77,16 +77,23 @@ jobs:
              gansky/ciexercise-spring-petclinic
           tag-sha: true
    ```
-  ### Step 7) We comfigure Docker on our run environment
+  ### Step 7) We configure Docker builder on our run environment
   ```
    - name: Set up Docker Buildx
      id: buildx
      uses: docker/setup-buildx-action@v1 
   ```
   
-  ### Step 8) We build and push our image:
-              - WE created  simple dockerfile with instructions to copy and run the compiled jar file on alpine server
-              - 
+  ### Step 8) We build and push our image
+   - WE created  simple dockerfile with instructions to copy and run the compiled jar file on alpine server
+   ```   
+       FROM openjdk:8-jre-alpine
+       WORKDIR /code
+       COPY /target/*.jar /code
+       CMD ["java","-jar","spring-petclinic-2.4.2.jar"]
+   ```
+   - We use the step 6 for tagging our image
+   - Finnaly we push our image to dockerhub registry
   ```
   - name: Build and push
      id: docker_build
@@ -98,6 +105,20 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }} 
    ```  
  
+## 4) We test our new version image by runnnin the container on local port (8080 for example) the image can be  also used for future continuous deployment stages
+   - we use local docker client by running the next commnad:
+     ``` $ docker run --name test -p 8080:8080 gansky/ciexercise-spring-petclinic:feature ```
+   - we can browse to  http://localhost:8080/ to see the new tested version.
+
+
+
+# Thank you! 
+\
+
+
+
+
+
 
 
 # Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-projects/spring-petclinic.png?branch=main)](https://travis-ci.org/spring-projects/spring-petclinic/)
