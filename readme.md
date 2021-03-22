@@ -85,6 +85,7 @@ jobs:
   ```
   
   ### Step 8) We build and push our image:
+              - WE created  simple dockerfile with instructions to copy and run the compiled jar file on alpine server
               - 
   ```
   - name: Build and push
@@ -97,24 +98,7 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }} 
    ```  
  
-#### Integrate static code analysis >>we use SonarCloud
- - we open a free account on [sonarcloud](https://sonarcloud.io)
- - we create a GitHub Secret SONAR_TOKEN with volue from sonarcloud configuration
- - we update the pom.xml  file with the following properties:
- ```
-  <properties>
-  <sonar.projectKey>gansky770_ciexercise-spring-petclinic</sonar.projectKey>
-  <sonar.organization>gansky770</sonar.organization>
-  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-  </properties>
-```
-  - we add to our run mvn command  :  
-   ```- name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-```
+
 
 # Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-projects/spring-petclinic.png?branch=main)](https://travis-ci.org/spring-projects/spring-petclinic/)
 
