@@ -1,48 +1,60 @@
 # CI Exercise Using GitHubActions
- ## 1)  We fork spring-petclinic repo and open a new branch -- FEATURE ( this branch is for aplication development purpose , we never touch a main branch )
+ ## 1)  We fork spring-petclinic repo and open a new branch -- FEATURE ( this branch is for aplication development purpose , **we never touch a main branch** )
  ## 2)  Github-Actions generate ".github/workflows" folder with yml file ,this file includes all configuration of our CI process that we want to run.
- ## 3) We start to configure our yml file >> there is a short explanation about each step below.
+ ## 3) We start to configure our yml file >> there is a short explanation about each step below (**All Cycle is trigered when there is a commit/push on FEATURE branch**)
   
+ ### Step 1) Checkout the repo and setup Java Development Kit 
 ```` 
 - name: Java CI with Maven
 on:
   push:                                     
-    branches: [ feature ]
+    branches: [ feature ]      
 jobs:
-  build:
+  build:  
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
+    - uses: actions/checkout@v2             
+    - name: Step 1 Set up JDK 11
       uses: actions/setup-java@v1
       with:
         java-version: 11
- 
- 
-   - name: Build and test with Maven 
+```` 
+ ### Step 2) - Build the the source code with with unit tests and  static code analysis .
+            
+```` 
+   - name:   Build and test with Maven 
      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-      
+ ````
+ ### Step 1)
+``` 
    - name : Validate Target Folder and compiled files
      run: |
          cd target
          ls -a
-         
+ ````
+ ### Step 1)
+ ```` 
    - name : Merge the feature branch in to main
      uses: tukasz/direct-merge-action@v2.0.2
      with:
         source-branch: feature
         target-branch: main
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
-        
+  ````  
+  ### Step 1)
+  ```
    - name: Login to Docker Hub
      uses: docker/login-action@v1
      with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-    
+  ```
+   
+  ### Step 1)
+  ```
    - name: Docker meta
      id: docker_meta
       ses: crazy-max/ghaction-docker-meta@v1
@@ -50,7 +62,9 @@ jobs:
           images: |
              gansky/ciexercise-spring-petclinic
           tag-sha: true
-    
+   ```
+  ### Step 1 
+  ```
    - name: Set up Docker Buildx
      id: buildx
      uses: docker/setup-buildx-action@v1
@@ -62,8 +76,9 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.docker_meta.outputs.tags }} 
-```` 
+         tags: ${{ steps.docker_meta.outputs.tags }} 
+   ```  
+ 
 #### Integrate static code analysis >>we use SonarCloud
  - we open a free account on [sonarcloud](https://sonarcloud.io)
  - we create a GitHub Secret SONAR_TOKEN with volue from sonarcloud configuration
