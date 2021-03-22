@@ -57,7 +57,7 @@ jobs:
         target-branch: main
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
   ````  
-  ### Step 3)We will login to our dockerhub registry for future push action ( ***we will store our new compiled version of spring-petclinc application in docker            image***)
+  ### Step 5)We will login to our dockerhub registry for future push action ( ***we will store our new compiled version of spring-petclinc application in docker            image***) We use dockerhub id as secrets.DOCKER_HUB_USERNAME  and generated dockerhub token as secrets.DOCKER_HUB_ACCESS_TOKEN.
   ```
    - name: Login to Docker Hub
      uses: docker/login-action@v1
@@ -66,7 +66,8 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
   ```
    
-  ### Step 1)
+  ### Step 6)We tag our images with branch name and commit short sha string ,  attaching the commit to image version
+          
   ```
    - name: Docker meta
      id: docker_meta
@@ -76,20 +77,24 @@ jobs:
              gansky/ciexercise-spring-petclinic
           tag-sha: true
    ```
-  ### Step 1 
+  ### Step 7) We comfigure Docker on our run environment
   ```
    - name: Set up Docker Buildx
      id: buildx
-     uses: docker/setup-buildx-action@v1
-
-   - name: Build and push
+     uses: docker/setup-buildx-action@v1 
+  ```
+  
+  ### Step 8) We build and push our image:
+              - 
+  ```
+  - name: Build and push
      id: docker_build
      uses: docker/build-push-action@v2
      with:
           context: ./
           file: ./Dockerfile
           push: true
-         tags: ${{ steps.docker_meta.outputs.tags }} 
+          tags: ${{ steps.docker_meta.outputs.tags }} 
    ```  
  
 #### Integrate static code analysis >>we use SonarCloud
