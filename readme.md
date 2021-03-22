@@ -113,8 +113,8 @@ jobs:
 ### There is a [logfile](https://raw.githubusercontent.com/gansky770/ciexercise-spring-petclinic/main/build.log) with  stream of a building process
 
 # CI Exercise Using Jenkins
- ## 1) We install Jenkins with docker-compose support
- ## 2) We create multi-stage  dockerfile that instructs to run sonarscan on the build proccess
+ ## 1) We install Jenkins with docker-compose support and all the default plugins
+ ## 2) We create in the forked repo multi-stage  dockerfile that instructs to run sonarscan on the build proccess
    ### Stage 1 run the build and test from   maven base mage
   ```
   FROM maven:3.5-jdk-8 as build
@@ -138,7 +138,44 @@ jobs:
   COPY --from=build /code/target/*.jar /code
   CMD ["java","-jar","spring-petclinic-2.4.2.jar"]
   ```
-
+ ## 3) We create  in the forked repo docker-compose file to deploy the sonarqube server and create specific network for the scannig process in the multi-stage  dockerfile  
+  ```
+  version: '3'
+  services:
+  sonarqube:
+      image: sonarqube
+      restart: unless-stopped
+      ports:
+        - 0.0.0.0:9000:9000
+        - 0.0.0.0:9092:9092
+      networks:
+       - sonarnet   
+   networks:
+     sonarnet:
+  ```
+ ## 4) We create  in the  forked repo Jenkinsfile to build  and deploy our application (***the testing process take place in the dockerfile we created***)
+ ```    
+  node {
+     def commit_id
+     stage('step a') {
+       checkout scm
+       sh "git rev-parse --short HEAD > .git/commit-id"                        
+       commit_id = readFile('.git/commit-id').trim()
+     }
+   
+     stage('sonarqube server') {
+      sh "docker-compose up  -d" 
+    }
+     stage('docker build/push') {
+       docker.withRegistry('https://index.docker.io/v1/','dockerhub') {
+         def app = docker.build("gansky/spring-petclinic:${commit-id}", '--network petclinic-pipeline_sonarnet .').push()
+         def appp= docker.build("gansky/spring-petclinic:latest", '--network petclinic-pipeline_sonarnet .').push()
+      }
+    }    
+   }
+ ```
+  
+ 
 # Thank you! 
 <br>
 <br>
