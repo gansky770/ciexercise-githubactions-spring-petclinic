@@ -153,7 +153,8 @@ jobs:
    networks:
      sonarnet:
   ```
- ## 4) We create  in the  forked repo Jenkinsfile to build  and deploy our application (***the testing process take place in the dockerfile we created***)
+ ## 4) We create  in the  forked repo Jenkinsfile to deploy the sonorqube server , build test  and push our application to dockerhub (***the testing process take place in the dockerfile we created***) 
+ ### very important to build the dockerfile in the same network as sonorqube server .
  ```    
   node {
      def commit_id
@@ -174,7 +175,8 @@ jobs:
     }    
    }
  ```
-  
+ ## 5) Finnaly on the jenkins server  we create pipeline job named "petclinic-pipeline"   with path to our git repo where the Jenkinsfile located.
+  ### We can set a webhook  on push in git repo with our jenkins server url  and check the " GitHub hook trigger" option in our pipeline job.
  
 # Thank you! 
 <br>
