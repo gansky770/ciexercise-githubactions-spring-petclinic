@@ -178,7 +178,7 @@ jobs:
  ## 5) Finnaly on the jenkins server  we create pipeline job named "petclinic-pipeline"   with path to our git repo where the Jenkinsfile located.
   ### We can set a webhook  on push in git repo with our jenkins server url  and check the " GitHub hook trigger" option in our pipeline job.
  
-# Thank you! 
+# Thank you! :relaxed:
 <br>
 <br>
 <br>
