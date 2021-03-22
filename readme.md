@@ -3,10 +3,10 @@
  ## 2)  Github-Actions generate ".github/workflows" folder with yml file ,this file includes all configuration of our CI process that we want to run.
  ## 3) We start to configure our yml file >> there is a short explanation about each step below.
   
- ```
+```` 
 - name: Java CI with Maven
 on:
-  push:
+  push:                                     
     branches: [ feature ]
 jobs:
   build:
@@ -17,53 +17,53 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-        
-    - name: Build and test with Maven 
-      env:
+ 
+ 
+   - name: Build and test with Maven 
+     env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+     run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       
-    - name : Validate Target Folder and compiled files
-      run: |
+   - name : Validate Target Folder and compiled files
+     run: |
          cd target
          ls -a
          
-    - name : Merge the feature branch in to main
-      uses: tukasz/direct-merge-action@v2.0.2
-      with:
+   - name : Merge the feature branch in to main
+     uses: tukasz/direct-merge-action@v2.0.2
+     with:
         source-branch: feature
-    # Name of the target branch (to)
         target-branch: main
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         
-    - name: Login to Docker Hub
-      uses: docker/login-action@v1
-      with:
+   - name: Login to Docker Hub
+     uses: docker/login-action@v1
+     with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
     
-    - name: Docker meta
-      id: docker_meta
-      uses: crazy-max/ghaction-docker-meta@v1
+   - name: Docker meta
+     id: docker_meta
+      ses: crazy-max/ghaction-docker-meta@v1
       with:
           images: |
              gansky/ciexercise-spring-petclinic
           tag-sha: true
     
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
+   - name: Set up Docker Buildx
+     id: buildx
+     uses: docker/setup-buildx-action@v1
 
-    - name: Build and push
-      id: docker_build
-      uses: docker/build-push-action@v2
-      with:
+   - name: Build and push
+     id: docker_build
+     uses: docker/build-push-action@v2
+     with:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-  ```
+          tags: ${{ steps.docker_meta.outputs.tags }} 
+```` 
 #### Integrate static code analysis >>we use SonarCloud
  - we open a free account on [sonarcloud](https://sonarcloud.io)
  - we create a GitHub Secret SONAR_TOKEN with volue from sonarcloud configuration
