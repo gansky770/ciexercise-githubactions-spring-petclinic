@@ -113,7 +113,7 @@ jobs:
 ### There is a [logfile](https://raw.githubusercontent.com/gansky770/ciexercise-spring-petclinic/main/build.log) with  stream of a building process
 
 # CI Exercise Using Jenkins
- ## 1) We install Jenkins with docker-compose support and all the default plugins
+ ## 1) We install Jenkins with docker-compose support and all the default plugins (+docker pipeline)
  ## 2) We create in the forked repo multi-stage  dockerfile that instructs to run sonarscan on the build proccess
    ### Stage 1 run the build and test from   maven base mage
   ```
